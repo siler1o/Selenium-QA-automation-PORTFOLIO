@@ -1,0 +1,42 @@
+# Selenium QA Automation Portfolio
+
+This repository contains my QA automation practice project using Python and Selenium WebDriver.
+
+## Tools Used
+
+- Python
+- Selenium WebDriver
+- Google Chrome
+- Visual Studio Code
+- Git
+- GitHub
+
+## Automated Test Cases
+
+### TC-001 - Register User
+Automates the user registration flow on Automation Exercise.
+
+### TC-002 - Valid Login
+Automates login using valid user credentials. (WORK IN PROGRESS)
+
+## Project Goals
+
+- Practice Selenium WebDriver
+- Learn element locators
+- Practice form automation
+- Work with dropdowns, checkboxes, and buttons
+- Implement assertions
+- Build a QA automation portfolio
+- Learn Git and GitHub version control
+
+## Test Website
+
+Automation Exercise
+
+## Current Status
+
+Work in progress. More automated test cases will be added as I continue learning Selenium.
+
+## Acknowledgements
+
+Special thanks to [Automation Exercise](https://automationexercise.com/) for providing a public website designed for QA and test automation practice.
