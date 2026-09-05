@@ -37,6 +37,12 @@ Automation Exercise
 
 Work in progress. More automated test cases will be added as I continue learning Selenium.
 
+## Test Documentation
+
+**Live QA test case tracker:**
+
+[Reuben Selenium Test Case Tracker]((https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=sharing))
+
 ## Acknowledgements
 
 Special thanks to [Automation Exercise](https://automationexercise.com/) for providing a public website designed for QA and test automation practice.
