@@ -39,9 +39,9 @@ Work in progress. More automated test cases will be added as I continue learning
 
 ## Test Documentation
 
-**Live QA test case tracker:**
+Detailed manual test cases, test steps, and execution records are available in my live Google Sheets tracker:
 
-[Reuben Selenium Test Case Tracker]((https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=sharing))
+[Reuben Selenium Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk)
 
 ## Acknowledgements
 
