@@ -36,6 +36,7 @@ def test_register_user():
 
     #dob below / also change made it cleaner below.
 
+    #select is a class that is used to select dropdowns in selenium. you need to import it first from selenium.webdriver.support.ui import Select
     daydropdown = Select(driver.find_element("id", "days"))
     daydropdown.select_by_value("31")
 

@@ -1,20 +1,32 @@
 from selenium import webdriver
 import time
 
-driver = webdriver.Chrome() #opens chrome
+from pages.login_page import LoginPage
 
-driver.get("https://automationexercise.com")
+def test_login_user():
 
-print(driver.title) #print the title of the page in the terminal
+    driver = webdriver.Chrome() #opens chrome
 
-time.sleep(5) #wait for 5 seconds then proceeds to the next command/code
+    driver.get("https://automationexercise.com")
 
-driver.find_element("link text", "Signup / Login").click() #HOW, WHAT
+    time.sleep(5) #wait for 5 seconds then proceeds to the next command/code
 
-time.sleep(3) 
+    driver.find_element("link text", "Signup / Login").click() #HOW, WHAT
 
-assert "Login to your account" in driver.page_source
+    time.sleep(3) 
 
-driver.find_element("name", "email").send_keys("testuser@example.com")
+    assert "Login to your account" in driver.page_source #assertion checkpoint
 
-driver.quit()
+    login_page = LoginPage(driver)
+    login_page.enter_email("qareuzzbzczb@example.com")
+    login_page.enter_pwd("Password test")
+    login_page.click_login()
+
+    logout = driver.find_element(
+        "link text", 
+        "Logout") #validation checkpoint to check if the logout button is displayed after login
+    assert logout.is_displayed() 
+
+    time.sleep(5) 
+
+    driver.quit()
