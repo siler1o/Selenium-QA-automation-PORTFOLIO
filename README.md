@@ -7,7 +7,7 @@ The goal of this project is not only to automate browser actions, but also to pr
 ## Current Progress
 
 - **26** planned test cases
-- **3** automated test cases
+- **4** automated test cases
 - Registration, valid login, and invalid login scenarios covered
 - Page Object Model introduced for reusable login actions
 - Explicit waits introduced in TC-003
