@@ -11,6 +11,15 @@ class LoginPage:
   def goto(self):
     self.driver.get("https://automationexercise.com")
 
+  def loginverify(self):
+     loginheader = self.wait.until(
+       EC.visibility_of_element_located((
+          By.XPATH, 
+          "//h2[text()='Login to your account']")
+          )
+     )
+     return loginheader
+
   def enter_email(self, email):
     self.driver.find_element(
       "css selector", "input[data-qa='login-email']"
@@ -20,13 +29,13 @@ class LoginPage:
     self.driver.find_element(
       "css selector", "input[data-qa='login-password']"
     ).send_keys(pwd)
-
+#clicklogin withou explicit waits
   def click_login(self):
     self.driver.find_element(
       "css selector",
       "button[data-qa='login-button']"
     ).click()
-
+#clicklogin with EC
   def click_login_wait(self):
     login_button = self.wait.until(
         EC.element_to_be_clickable((
@@ -35,7 +44,7 @@ class LoginPage:
             )
         )
     login_button.click()
-
+#click signup with EC
   def click_signup_login(self):
     signup_login = self.wait.until(
         EC.element_to_be_clickable((
@@ -44,7 +53,7 @@ class LoginPage:
             )
          )
     signup_login.click()
-
+#invalid sign in assertion
   def email_incorrect(self):
     incorrect_prompt = self.wait.until(
         EC.visibility_of_element_located((
@@ -53,7 +62,7 @@ class LoginPage:
            )
          )
     return incorrect_prompt
-  
+#verify logged out
   def logged_out_indicator(self):
     indicator = self.wait.until(
         EC.visibility_of_element_located((
@@ -62,3 +71,29 @@ class LoginPage:
            )
          )
     return indicator
+#logoutclick
+  def click_logout(self):
+    logout = self.wait.until(
+        EC.element_to_be_clickable((
+           By.LINK_TEXT,
+           "Logout")
+           )
+         )
+    logout.click()
+#loggedin assertion
+  def loggedin_indicator(self):
+    loggedin = self.wait.until(
+      EC.visibility_of_element_located((
+        By.LINK_TEXT, "Logout")
+        )
+    )
+    return loggedin
+
+  def logged_out(self):
+    loggedout = self.wait.until(
+      EC.visibility_of_element_located((
+           By.LINK_TEXT, 
+           "Signup / Login")
+        )
+    )
+    return loggedout

@@ -5,3 +5,5 @@ reports/report.html
 reports/assets/
 allure-results/
 .venv/
+allure-results/
+allure-report/
