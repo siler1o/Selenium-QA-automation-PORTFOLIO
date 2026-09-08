@@ -7,12 +7,13 @@ The goal of this project is not only to automate browser actions, but also to pr
 ## Current Progress
 
 - **26** planned test cases
-- **6** automated test cases implemented
+- **7** automated test cases implemented
 - Positive and negative authentication scenarios covered
 - Logout flow automated using a reusable Pytest WebDriver fixture
 - Existing-email registration validation automated
 - Contact Us form automated with file upload, JavaScript alert handling, success validation, and homepage return verification
-- Page Object Model expanded across multiple pages
+- Test Cases page navigation and verification automated in TC-007
+- Page Object Model expanded across login, contact, and reusable navigation components
 - Explicit waits used with Selenium Expected Conditions
 - Allure step reporting used for structured execution visibility
 - Project-specific virtual environment and dependency tracking added
@@ -37,14 +38,16 @@ The goal of this project is not only to automate browser actions, but also to pr
 Selenium-QA-automation-PORTFOLIO/
 ├── pages/
 │   ├── login_page.py
-│   └── contact_us.py
+│   ├── contact_us.py
+│   └── navigation_bar.py
 ├── tests/
 │   ├── test_TC001_Register.py
 │   ├── test_TC002_Valid_Login.py
 │   ├── test_TC003_Invalid_Login.py
 │   ├── test_TC004_Logout_User.py
 │   ├── test_TC005_Exisiting_Email.py
-│   └── test_TC006_Contact.py
+│   ├── test_TC006_Contact.py
+│   └── test_TC007_Test_Case.py
 ├── test_data/
 │   └── attachment test.png
 ├── conftest.py
@@ -116,6 +119,21 @@ A dedicated Contact Us page object is used for the workflow.
 
 [View TC-006 Script](tests/test_TC006_Contact.py)
 
+### TC-007 — Verify Test Cases Page
+Automates navigation from the homepage to the **Test Cases** page and verifies that the page is displayed successfully.
+
+The test covers:
+
+- opening Automation Exercise
+- using the reusable navigation bar page object to click **Test Cases**
+- waiting for the **Test Cases** heading with `WebDriverWait`
+- verifying that the expected page content is present
+- recording the navigation and verification actions as Allure steps
+
+TC-007 also introduces a reusable **MenuBar / navigation page object** that can be expanded as future test cases reuse common navigation links.
+
+[View TC-007 Script](tests/test_TC007_Test_Case.py)
+
 ## Page Object Model
 
 Reusable Selenium interactions are separated from the test cases using Page Object Model classes.
@@ -146,6 +164,12 @@ Handles Contact Us interactions such as:
 - waiting for and accepting browser alerts
 - validating the success message
 - returning to the homepage
+
+### Navigation Bar
+
+[`pages/navigation_bar.py`](pages/navigation_bar.py)
+
+Introduced in TC-007 as a reusable location for common navigation actions. It currently handles navigation to the **Test Cases** page and can be expanded later for links such as Home, Products, Cart, Contact Us, and Signup / Login as additional tests require them.
 
 This keeps test files focused on **what the test is validating**, while page objects handle **how Selenium interacts with the UI**.
 
@@ -213,7 +237,7 @@ python -m pytest tests/ -v --alluredir=allure-results
 Run an individual test without deleting existing Allure results:
 
 ```bash
-python -m pytest tests/test_TC006_Contact.py -v --alluredir=allure-results
+python -m pytest tests/test_TC007_Test_Case.py -v --alluredir=allure-results
 ```
 
 Start a live Allure report watcher in another terminal:
@@ -256,6 +280,7 @@ Basic Selenium
 → Multiple Page Objects
 → File Upload Handling
 → JavaScript Alert Handling
+→ Reusable Navigation Page Object
 ```
 
 Future improvements will be introduced gradually as the portfolio grows, including additional reusable framework components, test-data organization, failure evidence, and CI execution.
