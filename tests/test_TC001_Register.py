@@ -10,7 +10,7 @@ def test_register_user():
 
     driver.get("https://automationexercise.com")
 
-    time.sleep(3)
+    time.sleep(2)
 
     driver.find_element("link text", "Signup / Login").click()
 
@@ -20,13 +20,13 @@ def test_register_user():
 
     driver.find_element("name", "name").send_keys("Reuben QA tester")
 
-    driver.find_element("css selector", "input[data-qa='signup-email']").send_keys("qareuzzbzczb@example.com")
+    driver.find_element("css selector", "input[data-qa='signup-email']").send_keys("qarzcab@example.com")
 
-    time.sleep(4)
+    time.sleep(2)
 
     driver.find_element("css selector", "button[data-qa='signup-button']").click()
 
-    time.sleep(3)
+    time.sleep(2)
 
     assert "Enter Account Information" in driver.page_source
 
@@ -84,12 +84,12 @@ def test_register_user():
     mobnum = driver.find_element("css selector", "#mobile_number")
     mobnum.send_keys("09711224400")
 
-    time.sleep(5) #timer to display
+    time.sleep(2) #timer to display
 
     createaccount = driver.find_element("css selector", "button[data-qa='create-account']")
     createaccount.click()
 
-    time.sleep(10)
+    time.sleep(2)
 
     driver.quit()
 

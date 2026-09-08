@@ -76,7 +76,6 @@ class LoginPage:
         )
     signup_button.click()
 
-
 #clicklogin with EC
   def click_login_wait(self):
     login_button = self.wait.until(

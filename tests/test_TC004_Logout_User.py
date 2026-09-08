@@ -23,7 +23,7 @@ def test_logout_user(driver: WebDriver):
     with allure.step("Click Logout"):
         login_page.click_logout()
     with allure.step("Verify Logout"):
-        loggedout = login_page.loggedout()
+        loggedout = login_page.logged_out()
         assert loggedout.is_displayed()
     
         

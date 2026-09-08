@@ -36,4 +36,4 @@ def test_Contact_Us(driver: WebDriver):
     with allure.step("Click Home"):
         contact_us.click_home()
     with allure.step("Verify Homepage"):
-        assert contact_us.verify_home_url()
+        assert contact_us.verify_home()
