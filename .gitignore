@@ -7,3 +7,5 @@ allure-results/
 .venv/
 allure-results/
 allure-report/
+/report.html
+/assets/

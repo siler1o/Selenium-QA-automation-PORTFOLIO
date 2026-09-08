@@ -1,110 +1,118 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 class ContactUs:
+    
+    CONTACT_US_LINK = (By.LINK_TEXT, "Contact us")
+    GET_IN_TOUCH_HEADING = (
+        By.XPATH,
+        "//h2[normalize-space()='Get In Touch']"
+    )
+    NAME_FIELD = (By.NAME, "name")
+    EMAIL_FIELD = (By.NAME, "email")
+    SUBJECT_FIELD = (By.NAME, "subject")
+    MESSAGE_FIELD = (By.NAME, "message")
+    UPLOAD_FIELD = (
+        By.CSS_SELECTOR,
+        "input[name='upload_file']"
+    )
+    SUBMIT_BUTTON = (By.NAME, "submit")
+    SUCCESS_MESSAGE = (
+        By.CSS_SELECTOR,
+        "div.status.alert.alert-success"
+    )
+    HOME_LINK = (By.LINK_TEXT, "Home")
 
-    def __init__(self, driver): #my constructor / automatic setup method
-     self.driver = driver #chrome browser driver
-     self.wait = WebDriverWait(driver, 10)   
+    def __init__(self, driver):
+        self.driver = driver
+        self.wait = WebDriverWait(driver, 10)
+        self.home_url = "https://automationexercise.com/"
 
- #click contactus with EC
     def click_contact_us(self):
-     contact_us = self.wait.until(
-        EC.element_to_be_clickable((
-            By.LINK_TEXT, 
-            "Contact us")
-            )
-         )
-     contact_us.click()
-#get in touch assertion
+        contact_us_link = self.wait.until(
+            EC.element_to_be_clickable(self.CONTACT_US_LINK)
+        )
+        contact_us_link.click()
+
     def touch_assertion(self):
-     contactpage = self.wait.until(
-        EC.visibility_of_element_located((
-           By.XPATH, 
-           "//h2[text()='Get In Touch']")
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.GET_IN_TOUCH_HEADING
             )
         )
-     return contactpage
 
-#enter name and type
     def enter_name(self, name):
-      name_field = self.wait.until(
-        EC.visibility_of_element_located((
-         By.NAME,
-         "name")
-         )
-      )
-      name_field.send_keys(name)
-#enter email and type
+        name_field = self.wait.until(
+            EC.visibility_of_element_located(
+                self.NAME_FIELD
+            )
+        )
+        name_field.send_keys(name)
+
     def enter_email(self, email):
-      name_field = self.wait.until(
-        EC.visibility_of_element_located((
-         By.NAME, 
-         "email")
-         )
-      )
-      name_field.send_keys(email)
-#enter subject and type      
+        email_field = self.wait.until(
+            EC.visibility_of_element_located(
+                self.EMAIL_FIELD
+            )
+        )
+        email_field.send_keys(email)
+
     def enter_subject(self, subject):
-      subject_field = self.wait.until(
-        EC.visibility_of_element_located((
-         By.NAME,
-         "subject")
-         )
-      )
-      subject_field.send_keys(subject)
-#enter message and type
+        subject_field = self.wait.until(
+            EC.visibility_of_element_located(
+                self.SUBJECT_FIELD
+            )
+        )
+        subject_field.send_keys(subject)
+
     def enter_message(self, message):
-      message_field = self.wait.until(
-        EC.visibility_of_element_located((
-         By.NAME, "message")
-         )
-      )
-      message_field.send_keys(message)
-#choose file
-    def upload_file (self, file):
-      file_field = self.wait.until(
-        EC.presence_of_element_located((
-         By.CSS_SELECTOR, 
-         "input[name='upload_file']")
-         )
-      )
-      file_field.send_keys(file)
-#click ok alert
-    def accept_alert(self):
-      alert = self.wait.until(
-        EC.alert_is_present(
-         )
-      )
-      alert.accept()
-#click submit
+        message_field = self.wait.until(
+            EC.visibility_of_element_located(
+                self.MESSAGE_FIELD
+            )
+        )
+        message_field.send_keys(message)
+
+    def upload_file(self, file_path):
+        upload_field = self.wait.until(
+            EC.presence_of_element_located(
+                self.UPLOAD_FIELD
+            )
+        )
+        upload_field.send_keys(file_path)
+
     def click_submit(self):
-      submit_button = self.wait.until(
-        EC.element_to_be_clickable((
-         By.NAME, 
-         "submit")
-         )
-      )
-      submit_button.click()
-#verify success prompt
+        submit_button = self.wait.until(
+            EC.element_to_be_clickable(
+                self.SUBMIT_BUTTON
+            )
+        )
+        submit_button.click()
+
+    def accept_alert(self):
+        alert = self.wait.until(
+            EC.alert_is_present()
+        )
+        alert.accept()
+
     def success_prompt(self):
-      success_message = self.wait.until(
-        EC.visibility_of_element_located((
-         By.CSS_SELECTOR, 
-         "div.status.alert.alert-success")
-         )
-      )
-      return success_message
-#return home
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.SUCCESS_MESSAGE
+            )
+        )
+
     def click_home(self):
-      return_home = self.wait.until(
-        EC.element_to_be_clickable((
-          By.LINK_TEXT, 
-          "Home"
-        ))
-      )
-      return_home.click()
-#verify homepage with link
+        home_link = self.wait.until(
+            EC.element_to_be_clickable(
+                self.HOME_LINK
+            )
+        )
+        home_link.click()
+
     def verify_home(self):
-      return self.driver.current_url == self.home_url
+        return self.wait.until(
+            EC.url_to_be(self.home_url)
+        )

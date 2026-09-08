@@ -3,10 +3,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 class LoginPage:
+  
+  invalid_message = "Your email or password is incorrect!"
 
   def __init__(self, driver): #my constructor / set up the things it needs
     self.driver = driver #chrome browser driver
     self.wait = WebDriverWait(driver, 10)
+    self.home_url = "https://automationexercise.com/"
 
   def goto(self):
     self.driver.get("https://automationexercise.com")
@@ -97,13 +100,12 @@ class LoginPage:
     signup_login.click()
 #invalid sign in assertion
   def email_incorrect(self):
-    incorrect_prompt = self.wait.until(
-        EC.visibility_of_element_located((
-           By.XPATH, 
-           "//p[text()='Your email or password is incorrect!']")
-           )
+        return self.wait.until(
+            EC.visibility_of_element_located((
+              By.XPATH,
+              f"//p[text()='{self.invalid_message}']")
+            )
          )
-    return incorrect_prompt
   
 #invalid sign up assertion/validation
   def user_exist(self):

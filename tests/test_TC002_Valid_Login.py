@@ -1,32 +1,33 @@
-from selenium import webdriver
-import time
-
+import allure
+from selenium.webdriver.chrome.webdriver import WebDriver
 from pages.login_page import LoginPage
 
-def test_login_user():
 
-    driver = webdriver.Chrome() #opens chrome
-
-    driver.get("https://automationexercise.com")
-
-    time.sleep(5) #wait for 5 seconds then proceeds to the next command/code
-
-    driver.find_element("link text", "Signup / Login").click() #HOW, WHAT
-
-    time.sleep(3) 
-
-    assert "Login to your account" in driver.page_source #assertion checkpoint
-
+@allure.feature("Authentication")
+@allure.story("Valid Login")
+@allure.title("TC-002 — Login with valid credentials")
+@allure.severity(allure.severity_level.CRITICAL)
+def test_login_user(driver: WebDriver):
     login_page = LoginPage(driver)
-    login_page.enter_email("qareuzzbzczb@example.com")
-    login_page.enter_pwd("Password test")
-    login_page.click_login()
 
-    logout = driver.find_element(
-        "link text", 
-        "Logout") #validation checkpoint to check if the logout button is displayed after login
-    assert logout.is_displayed() 
+    with allure.step("Open the Automation Exercise website"):
+        login_page.goto()
 
-    time.sleep(5) 
+    with allure.step("Open the Signup / Login page"):
+        login_page.click_signup_login()
 
-    driver.quit()
+    with allure.step("Verify the login section is displayed"):
+        login_heading = login_page.loginverify()
+        assert login_heading.is_displayed()
+
+    with allure.step("Enter valid login credentials"):
+        login_page.enter_email("qareuzzbzczb@example.com")
+        login_page.enter_pwd("Password test")
+
+    with allure.step("Submit the login form"):
+        login_page.click_login_wait()
+
+    with allure.step("Verify the user is successfully logged in"):
+        logout_link = login_page.loggedin_indicator()
+        assert logout_link.is_displayed(), (
+            "Logout link was not displayed after login")

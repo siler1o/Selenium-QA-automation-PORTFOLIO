@@ -2,7 +2,11 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from pages.login_page import LoginPage
 import allure
 
-def test_Email_exist(driver: WebDriver):
+@allure.feature("Authentication")
+@allure.story("Duplicate Registration")
+@allure.title("TC-005 — Reject registration with an existing email")
+@allure.severity(allure.severity_level.NORMAL)
+def test_register_with_existing_email(driver: WebDriver):
     login_page = LoginPage(driver)
     with allure.step("Open Automation Exercise Website"):
         login_page.goto()
@@ -23,6 +27,7 @@ def test_Email_exist(driver: WebDriver):
     with allure.step("Verify Signup page"):
         signupheader = login_page.newuserverify()
         assert signupheader.is_displayed()
+        assert "/signup" in driver.current_url 
     
 
     
