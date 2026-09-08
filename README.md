@@ -1,304 +1,161 @@
 # Selenium QA Automation Portfolio
 
-This repository contains my growing QA automation portfolio using **Python, Selenium WebDriver, Pytest, Page Object Model (POM), and Allure**. I am building the project test case by test case using [Automation Exercise](https://automationexercise.com/) as the practice website.
-
-The goal of this project is not only to automate browser actions, but also to practice building tests that are **organized, reusable, reliable, maintainable, and easy to understand**.
-
-## Current Progress
-
-- **26** planned test cases
-- **7** automated test cases implemented
-- Positive and negative authentication scenarios covered
-- Logout flow automated using a reusable Pytest WebDriver fixture
-- Existing-email registration validation automated
-- Contact Us form automated with file upload, JavaScript alert handling, success validation, and homepage return verification
-- Test Cases page navigation and verification automated in TC-007
-- Page Object Model expanded across login, contact, and reusable navigation components
-- Explicit waits used with Selenium Expected Conditions
-- Allure step reporting used for structured execution visibility
-- Project-specific virtual environment and dependency tracking added
-
-## Tools & Technologies
+A personal UI automation project by **Reuben Silerio**, applying manual QA and test-design experience to **Python, Selenium WebDriver, Pytest, Page Object Model (POM), and Allure**.
 
-- Python
-- Selenium WebDriver
-- Pytest
-- Page Object Model (POM)
-- WebDriverWait / Expected Conditions
-- Allure Report
-- `pathlib` for reusable file paths
-- Google Chrome
-- Visual Studio Code
-- Git & GitHub
-- Google Sheets for test case and execution tracking
+The project translates documented scenarios into automated checks against [Automation Exercise](https://automationexercise.com/), with a focus on repeatable execution, meaningful assertions, reusable page objects, and clear test reporting.
 
-## Project Structure
+[Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest Framework Improvements](https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO/commit/a95b2c425a7de98232c29b821bed844f7c9532ec)
 
-```text
-Selenium-QA-automation-PORTFOLIO/
-├── pages/
-│   ├── login_page.py
-│   ├── contact_us.py
-│   └── navigation_bar.py
-├── tests/
-│   ├── test_TC001_Register.py
-│   ├── test_TC002_Valid_Login.py
-│   ├── test_TC003_Invalid_Login.py
-│   ├── test_TC004_Logout_User.py
-│   ├── test_TC005_Exisiting_Email.py
-│   ├── test_TC006_Contact.py
-│   └── test_TC007_Test_Case.py
-├── test_data/
-│   └── attachment test.png
-├── conftest.py
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
+## Current Snapshot
 
-## Automated Test Cases
+- **7 automated scenarios out of 26 planned** — 26.9% of the planned scenario list, not application-wide coverage.
+- **Latest recorded local suite run: 7 passed in 88.20 seconds.**
+- Authentication, duplicate registration, contact-form submission, and navigation checks.
+- All seven tests use the shared Chrome fixture; TC-002 through TC-007 include Allure steps and metadata.
 
-### TC-001 — Register User
-Automates the registration flow using valid user information.
+The local result was recorded on Windows with Chrome, Python 3.11.4, Pytest 9.1.1, and allure-pytest 2.16.0 during the recent refactor, before the final naming cleanup. It is a maintainer-recorded local result, not a CI result or a guarantee that future runs will pass.
 
-[View TC-001 Script](tests/test_TC001_Register.py)
+## Automated Scenarios
 
-### TC-002 — Valid Login
-Automates login using valid credentials and verifies that the **Logout** option is displayed after a successful login.
+| ID | Scenario | Main checks |
+| --- | --- | --- |
+| [TC-001](tests/test_TC001_Register.py) | Register user | UUID-based email, registration form controls, visible `ACCOUNT CREATED!` confirmation. |
+| [TC-002](tests/test_TC002_Valid_Login.py) | Valid login | Login form is visible; valid credentials produce the logged-in navigation indicator. |
+| [TC-003](tests/test_TC003_Invalid_Login.py) | Invalid login | Exact invalid-credentials message is visible; Signup / Login remains available. |
+| [TC-004](tests/test_TC004_Logout_User.py) | Logout | User logs in and logs out; both the logged-out indicator and login heading are visible. |
+| [TC-005](tests/test_TC005_Existing_Email.py) | Existing-email registration | Duplicate-email error is visible; the signup form remains displayed on the `/signup` route. |
+| [TC-006](tests/test_TC006_Contact.py) | Contact Us form | Attachment path exists, file is submitted, confirmation alert is accepted, exact success text is displayed, and the browser returns to the homepage URL. |
+| [TC-007](tests/test_TC007_Test_Case.py) | Test Cases navigation | Heading is visible with the expected text and the URL contains `/test_cases`. |
 
-[View TC-002 Script](tests/test_TC002_Valid_Login.py)
+## Recent Improvements
 
-### TC-003 — Invalid Login
-Negative authentication test that verifies invalid credentials are rejected correctly.
+- **Shared browser lifecycle:** the `driver` fixture in `conftest.py` starts Chrome for each test and closes it after execution, including ordinary assertion failures.
+- **Registration validation:** TC-001 now generates a UUID-based email and asserts account creation instead of ending after the button click.
+- **Wait-based interactions:** login tests use `click_login_wait()`; page objects use visibility, clickability, file-input presence, alert, and URL conditions where needed.
+- **Clearer expected outcomes:** logout checks the destination login form; Contact Us checks the exact confirmation text; navigation checks content and destination.
+- **Portable attachment path:** TC-006 builds the path from `__file__`, checks that it exists, and passes it to the upload method in the POM.
+- **Centralized locators:** `ContactUs` and `NavigationBar` define locator constants separately from interaction methods.
+- **Reporting and repository hygiene:** TC-002 through TC-007 have Allure feature, story, title, severity, and step annotations. The TC-005 filename is corrected, and generated reports are ignored.
 
-The test verifies that:
+## Project Organization
 
-- the Signup / Login page can be opened
-- invalid email and password values can be submitted
-- the message **“Your email or password is incorrect!”** becomes visible
-- the user remains logged out
-- each major test action is recorded as an Allure step
+| Location | Responsibility |
+| --- | --- |
+| [tests/](tests/) | Scenarios, expected-result assertions, and Allure steps. |
+| [pages/login_page.py](pages/login_page.py) | `LoginPage`: login, signup, logout, and authentication-message interactions. |
+| [pages/contact_us.py](pages/contact_us.py) | `ContactUs`: contact form fields, attachment upload, alert handling, success message, and home navigation. |
+| [pages/navigation_bar.py](pages/navigation_bar.py) | `NavigationBar`: Test Cases link and destination-heading lookup. |
+| [conftest.py](conftest.py) | Shared Pytest Chrome setup and teardown. |
+| [test_data/](test_data/) | The sample `attachment test.png` used by TC-006. |
+| [requirements.txt](requirements.txt) | Pinned Python dependencies. |
+| [.gitignore](.gitignore) | Excludes the virtual environment, caches, and generated report output. |
 
-TC-003 introduced **explicit waits** using `WebDriverWait` and Selenium Expected Conditions for the newer automation workflow.
+Page objects handle locating and interacting with UI elements. Tests describe the workflow and evaluate the returned elements against the expected results.
 
-[View TC-003 Script](tests/test_TC003_Invalid_Login.py)
+### Why TC-001 Has a Different Style
 
-### TC-004 — Logout User
-Automates a valid login followed by logout and verifies the user returns to the logged-out state.
+TC-001 intentionally keeps its original, direct Selenium structure as a foundational example. It now includes the shared fixture, a UUID-based email, and an explicit wait for account creation, while retaining some fixed sleeps and inline locators.
 
-TC-004 also introduced a reusable **Pytest WebDriver fixture** in `conftest.py`, allowing browser setup and teardown to be shared across tests using `yield`.
+TC-002 onward show the progression toward reusable page objects, explicit waits, and structured Allure reporting. This keeps the learning progression visible without claiming that every test follows an identical design.
 
-[View TC-004 Script](tests/test_TC004_Logout_User.py)
+## Setup
 
-### TC-005 — Register User With Existing Email
-Negative registration test that attempts to sign up using an already registered email address.
+The recorded local environment uses **Python 3.11.4 and Google Chrome on Windows**. Install Python, Chrome, and Git before starting. Internet access to the practice site is required.
 
-The test verifies that:
+From PowerShell:
 
-- the New User Signup section is available
-- valid name and existing email data can be entered
-- the duplicate-email validation message is displayed
-- the user remains on the signup flow instead of creating a new account
-
-[View TC-005 Script](tests/test_TC005_Exisiting_Email.py)
-
-### TC-006 — Submit Contact Us Form
-Automates the Contact Us workflow and introduces additional browser-interaction scenarios.
-
-The test covers:
-
-- opening and validating the Contact Us page
-- entering name, email, subject, and message data
-- uploading a test attachment using Selenium file input handling
-- submitting the form
-- waiting for and accepting a JavaScript confirmation alert
-- verifying the success message
-- returning to the homepage and validating navigation
-
-A dedicated Contact Us page object is used for the workflow.
-
-[View TC-006 Script](tests/test_TC006_Contact.py)
-
-### TC-007 — Verify Test Cases Page
-Automates navigation from the homepage to the **Test Cases** page and verifies that the page is displayed successfully.
-
-The test covers:
-
-- opening Automation Exercise
-- using the reusable navigation bar page object to click **Test Cases**
-- waiting for the **Test Cases** heading with `WebDriverWait`
-- verifying that the expected page content is present
-- recording the navigation and verification actions as Allure steps
-
-TC-007 also introduces a reusable **MenuBar / navigation page object** that can be expanded as future test cases reuse common navigation links.
-
-[View TC-007 Script](tests/test_TC007_Test_Case.py)
-
-## Page Object Model
-
-Reusable Selenium interactions are separated from the test cases using Page Object Model classes.
-
-### Login Page
-
-[`pages/login_page.py`](pages/login_page.py)
-
-Handles authentication and registration-related interactions such as:
-
-- opening Automation Exercise
-- navigating to Signup / Login
-- entering login and signup data
-- clicking login, signup, and logout controls
-- validating login, logout, and duplicate-email states
-
-### Contact Us Page
-
-[`pages/contact_us.py`](pages/contact_us.py)
-
-Handles Contact Us interactions such as:
-
-- navigating to Contact Us
-- validating the page heading
-- entering form data
-- uploading an attachment
-- clicking Submit
-- waiting for and accepting browser alerts
-- validating the success message
-- returning to the homepage
-
-### Navigation Bar
-
-[`pages/navigation_bar.py`](pages/navigation_bar.py)
-
-Introduced in TC-007 as a reusable location for common navigation actions. It currently handles navigation to the **Test Cases** page and can be expanded later for links such as Home, Products, Cart, Contact Us, and Signup / Login as additional tests require them.
-
-This keeps test files focused on **what the test is validating**, while page objects handle **how Selenium interacts with the UI**.
-
-## Pytest Fixture Setup
-
-A reusable browser fixture is defined in:
-
-[`conftest.py`](conftest.py)
-
-The fixture creates Chrome before a test and automatically closes the browser after the test finishes using `yield` for setup and teardown.
-
-This removes repeated `webdriver.Chrome()` and `driver.quit()` logic from newer test cases.
-
-## Explicit Wait Strategy
-
-Newer page-object methods use Selenium Expected Conditions instead of depending on fixed delays.
-
-Examples include:
-
-- `visibility_of_element_located` for fields, headings, and validation messages
-- `element_to_be_clickable` for buttons and navigation links
-- `presence_of_element_located` for file-upload inputs
-- `alert_is_present` for JavaScript alert handling
-
-The goal is to reduce timing-related failures and make the tests more reliable.
-
-## Reporting
-
-Allure is used to record major actions as readable test steps.
-
-Example TC-006 flow:
-
-```text
-Open Automation Exercise Website
-→ Click Contact Us
-→ Verify Contact Page
-→ Enter Name
-→ Enter Email
-→ Enter Subject
-→ Enter Message
-→ Upload File
-→ Click Submit
-→ Accept Alert
-→ Verify Success Message
-→ Click Home
-→ Verify Homepage
-```
-
-Generated Allure results and reports are excluded from Git tracking so the repository stays focused on automation code and documentation.
-
-## Running the Tests
-
-Install project dependencies:
-
-```bash
+```powershell
+git clone https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO.git
+cd Selenium-QA-automation-PORTFOLIO
+python -m venv .venv
+./.venv/Scripts/Activate.ps1
 python -m pip install -r requirements.txt
 ```
 
-Run all automated tests and create Allure results:
+If you already cloned the project, use your existing project folder and virtual environment. If PowerShell blocks activation, use `./.venv/Scripts/python.exe` in place of `python` for the install and test commands; no execution-policy change is necessary.
 
-```bash
+### Test Data and Preconditions
+
+TC-002, TC-004, and TC-005 currently use a pre-existing practice account specified in the test files. That account must exist for the login and duplicate-email checks to run as designed. They do **not** use the newly generated TC-001 email.
+
+TC-001 creates a new practice account and currently ends at the account-creation confirmation. Browser teardown does not delete that account. Only use dedicated dummy data on the practice website; do not substitute personal or production credentials.
+
+## Run the Tests
+
+Run all seven tests:
+
+```powershell
+python -m pytest tests/ -v
+```
+
+Run an individual scenario:
+
+```powershell
+python -m pytest tests/test_TC006_Contact.py -v
+```
+
+Check test discovery without opening browsers:
+
+```powershell
+python -m pytest tests/ --collect-only -q
+```
+
+### Allure Results and Reports
+
+Generate raw Allure results for the full suite:
+
+```powershell
 python -m pytest tests/ -v --alluredir=allure-results
 ```
 
-Run an individual test without deleting existing Allure results:
+The Python integration records results; the separate Allure CLI builds and opens the report. Existing results are retained by default. To isolate a new run, use a fresh results directory, or save any evidence you need before adding `--clean-alluredir`, which clears previous results in the selected directory. See the [Allure Pytest guide](https://allurereport.org/docs/pytest/).
 
-```bash
-python -m pytest tests/test_TC007_Test_Case.py -v --alluredir=allure-results
+Check your CLI version with `allure.cmd --version` and use the matching workflow:
+
+**Allure 2** — generate and view a temporary report:
+
+```powershell
+allure.cmd serve allure-results
 ```
 
-Start a live Allure report watcher in another terminal:
+See [Allure 2 installation for Windows](https://allurereport.org/docs/v2/install-for-windows/) and [report generation](https://allurereport.org/docs/v2/generate-report/).
 
-```bash
-allure.cmd watch allure-results
+**Allure 3** — generate a report, then open it:
+
+```powershell
+allure.cmd generate allure-results
+allure.cmd open allure-report
 ```
 
-While the watcher is running, new test results are reflected in the report as tests are executed.
+See [Allure 3 installation](https://allurereport.org/docs/v3/install/) and [report generation](https://allurereport.org/docs/v3/generate-report/). Regenerate the report after another test run before opening it. On macOS/Linux, use `allure` instead of `allure.cmd`.
 
-To intentionally start with a clean Allure results directory before a full run:
+TC-002 through TC-007 contain named steps. TC-001 still appears as a test result but does not yet have custom Allure steps. Generated reports are local artifacts; this repository does not currently host a live Allure report.
 
-```bash
-python -m pytest tests/ -v --alluredir=allure-results --clean-alluredir
+### Optional HTML Summary
+
+```powershell
+python -m pytest tests/ -v --html=report.html --self-contained-html
 ```
 
-## Environment & Dependency Management
-
-The project uses a local `.venv` virtual environment so Selenium, Pytest, Allure integration, and other dependencies stay isolated from the system Python environment.
-
-Project dependencies are tracked in:
-
-[`requirements.txt`](requirements.txt)
-
-The `.venv` directory and generated Allure output are excluded through `.gitignore`.
-
-## Learning Progress
-
-This repository intentionally shows my progression while learning Selenium automation. Earlier test cases preserve more direct Selenium approaches, while newer tests gradually introduce additional framework practices.
-
-Current progression:
-
-```text
-Basic Selenium
-→ Page Object Model
-→ Explicit Waits
-→ Allure Step Reporting
-→ Pytest Fixtures
-→ Virtual Environment / Dependency Management
-→ Multiple Page Objects
-→ File Upload Handling
-→ JavaScript Alert Handling
-→ Reusable Navigation Page Object
-```
-
-Future improvements will be introduced gradually as the portfolio grows, including additional reusable framework components, test-data organization, failure evidence, and CI execution.
+This creates a separate pytest-html summary, not the Allure step report. Generated `report.html`, `assets/`, `allure-results/`, and `allure-report/` are excluded from Git tracking.
 
 ## Test Documentation
 
-Detailed test cases, test steps, execution history, evidence, and automation progress are tracked in my live Google Sheets QA tracker:
+The [Reuben Selenium Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) contains the planned scenarios, priorities, detailed steps, expected and actual results, and execution history. Scenario IDs connect that documentation to the scripts above.
 
-[Reuben Selenium Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk)
+## Current Scope and Next Steps
 
-## Test Website
+This is a personal practice project, not production automation. Execution currently targets Chrome, and results depend on the public site's availability, page behavior, and existing test data. Some login input methods still use direct element lookups; TC-001 retains fixed sleeps.
 
-[Automation Exercise](https://automationexercise.com/)
+Planned improvements:
 
-## Project Goal
+- Add automatic failure screenshots and link execution evidence to exact commits.
+- Externalize practice-account data and formalize account setup/cleanup.
+- Add CI execution and published report artifacts.
+- Expand into product search, cart, and checkout scenarios from the 26-case plan.
 
-Continue building toward a complete QA automation portfolio while improving my skills in Selenium, Python, Pytest, test design, reporting, reusable framework design, and version control.
+These are planned capabilities, not features already implemented.
 
 ## Acknowledgements
 
-Special thanks to [Automation Exercise](https://automationexercise.com/) for providing a public website designed for QA and test automation practice.
+Thanks to [Automation Exercise](https://automationexercise.com/) for providing a public QA practice website and [test-case scenarios](https://automationexercise.com/test_cases).
