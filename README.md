@@ -4,7 +4,7 @@ A personal UI automation project by **Reuben Silerio**, applying manual QA and t
 
 The project translates documented scenarios into automated checks against [Automation Exercise](https://automationexercise.com/), with a focus on repeatable execution, meaningful assertions, reusable page objects, and clear test reporting.
 
-[Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest Framework Improvements](https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO/commit/a95b2c425a7de98232c29b821bed844f7c9532ec)
+[View Allure Report](https://siler1o.github.io/Selenium-QA-automation-PORTFOLIO/) · [Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest Framework Improvements](https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO/commit/a95b2c425a7de98232c29b821bed844f7c9532ec)
 
 ## Current Snapshot
 
@@ -35,7 +35,7 @@ The local result was recorded on Windows with Chrome, Python 3.11.4, Pytest 9.1.
 - **Clearer expected outcomes:** logout checks the destination login form; Contact Us checks the exact confirmation text; navigation checks content and destination.
 - **Portable attachment path:** TC-006 builds the path from `__file__`, checks that it exists, and passes it to the upload method in the POM.
 - **Centralized locators:** `ContactUs` and `NavigationBar` define locator constants separately from interaction methods.
-- **Reporting and repository hygiene:** TC-002 through TC-007 have Allure feature, story, title, severity, and step annotations. The TC-005 filename is corrected, and generated reports are ignored.
+- **Reporting and repository hygiene:** TC-002 through TC-007 have Allure feature, story, title, severity, and step annotations. The TC-005 filename is corrected. Local report output is ignored, while `docs/` contains the report snapshot published through GitHub Pages.
 
 ## Project Organization
 
@@ -48,7 +48,8 @@ The local result was recorded on Windows with Chrome, Python 3.11.4, Pytest 9.1.
 | [conftest.py](conftest.py) | Shared Pytest Chrome setup and teardown. |
 | [test_data/](test_data/) | The sample `attachment test.png` used by TC-006. |
 | [requirements.txt](requirements.txt) | Pinned Python dependencies. |
-| [.gitignore](.gitignore) | Excludes the virtual environment, caches, and generated report output. |
+| [docs/](docs/) | Generated Allure report snapshot published through GitHub Pages. |
+| [.gitignore](.gitignore) | Excludes the virtual environment, caches, and local report output; the publishing copy in `docs/` is tracked. |
 
 Page objects handle locating and interacting with UI elements. Tests describe the workflow and evaluate the returned elements against the expected results.
 
@@ -129,7 +130,15 @@ allure.cmd open allure-report
 
 See [Allure 3 installation](https://allurereport.org/docs/v3/install/) and [report generation](https://allurereport.org/docs/v3/generate-report/). Regenerate the report after another test run before opening it. On macOS/Linux, use `allure` instead of `allure.cmd`.
 
-TC-002 through TC-007 contain named steps. TC-001 still appears as a test result but does not yet have custom Allure steps. Generated reports are local artifacts; this repository does not currently host a live Allure report.
+TC-002 through TC-007 contain named steps. TC-001 still appears as a test result but does not yet have custom Allure steps. [View the published Allure report](https://siler1o.github.io/Selenium-QA-automation-PORTFOLIO/) to explore the last uploaded test results and steps without installing the project.
+
+The published report is a manually prepared snapshot of a local test run. To update it, collect results for the intended run, generate and review the report, replace the generated report files in `docs/` while retaining its empty `.nojekyll` marker, then commit and push the updated `docs/` to `main`. GitHub Pages publishes from `main` → `/docs`. Local test runs and commits alone do not refresh the public report; Pages handles deployment, while Selenium execution and report generation remain manual.
+
+To preview the current publishing copy locally:
+
+```powershell
+allure.cmd open docs
+```
 
 ### Optional HTML Summary
 
@@ -151,7 +160,7 @@ Planned improvements:
 
 - Add automatic failure screenshots and link execution evidence to exact commits.
 - Externalize practice-account data and formalize account setup/cleanup.
-- Add CI execution and published report artifacts.
+- Add CI test execution with automatic report generation and publication.
 - Expand into product search, cart, and checkout scenarios from the 26-case plan.
 
 These are planned capabilities, not features already implemented.
