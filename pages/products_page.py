@@ -12,6 +12,12 @@ class ProductPage:
     VIEW_PRODUCT = (By.LINK_TEXT, "View Product")
     PRODUCT_TITLE = (By.CSS_SELECTOR, "div.product-information h2")
     PRODUCT_INFORMATION = (By.CSS_SELECTOR, "div.product-information")
+    SEARCH_BAR = (By.ID, "search_product")
+    SEARCH_BUTTON = (By.ID, "submit_search")
+    SEARCH_HEADER = (
+    By.XPATH,
+    "//h2[text()='Searched Products']"
+    )
 
     def __init__(self, driver):
      self.driver = driver
@@ -37,12 +43,7 @@ class ProductPage:
                 self.VIEW_PRODUCT
             )
         )
-
-        product_url = view_product.get_attribute("href")
         view_product.click()
-
-        if "#google_vignette" in self.driver.current_url:
-            self.driver.get(product_url)
 
     def product_title(self):
         return self.wait.until(
@@ -57,3 +58,28 @@ class ProductPage:
                 self.PRODUCT_INFORMATION
             )
         )
+
+    def type_search(self, search):
+        search_type = self.wait.until(
+            EC.visibility_of_element_located(
+                self.SEARCH_BAR
+            )
+        )
+        search_type.send_keys(search)
+
+    def click_search(self):
+        click_search_button = self.wait.until(
+            EC.element_to_be_clickable(
+                self.SEARCH_BUTTON
+            )
+        )
+        click_search_button.click()
+
+    def search_header(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.SEARCH_HEADER
+            )
+        )
+
+
