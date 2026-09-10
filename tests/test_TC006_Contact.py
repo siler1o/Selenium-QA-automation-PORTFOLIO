@@ -9,7 +9,7 @@ from pathlib import Path
 @allure.story("Contact Us Form")
 @allure.title("TC-006 — Submit the Contact Us form")
 @allure.severity(allure.severity_level.NORMAL)
-def test_Contact_Us(driver: WebDriver):
+def test_contact_us_form(driver: WebDriver):
     login_page = LoginPage(driver)
     contact_us = ContactUs(driver)
     with allure.step("Open Automation Exercise Website"):

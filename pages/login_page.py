@@ -9,7 +9,6 @@ class LoginPage:
   def __init__(self, driver): #my constructor / set up the things it needs
     self.driver = driver #chrome browser driver
     self.wait = WebDriverWait(driver, 10)
-    self.home_url = "https://automationexercise.com/"
 
   def goto(self):
     self.driver.get("https://automationexercise.com")

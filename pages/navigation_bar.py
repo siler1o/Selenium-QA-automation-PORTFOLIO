@@ -9,9 +9,19 @@ class NavigationBar:
         By.XPATH,
         "//h2[normalize-space()='Test Cases']"
     )
-
+    HOME_LINK = (By.LINK_TEXT, "Home")
+    PRODUCT_LINK = (By.CSS_SELECTOR, "a[href='/products']")   
+    
     def __init__(self, driver):
         self.wait = WebDriverWait(driver, 10)
+
+    def click_product(self):
+        navi_product = self.wait.until(
+            EC.element_to_be_clickable(
+                self.PRODUCT_LINK
+            )
+        )
+        navi_product.click()
 
     def click_test_cases(self):
         test_cases_link = self.wait.until(
