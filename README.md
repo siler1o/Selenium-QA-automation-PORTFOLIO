@@ -4,17 +4,19 @@ A personal UI automation project by **Reuben Silerio**, applying professional ma
 
 The project translates documented scenarios into automated checks against [Automation Exercise](https://automationexercise.com/), with a focus on repeatable execution, meaningful assertions, reusable page objects, explicit synchronization, and clear test evidence.
 
-[View Live Allure Report](https://siler1o.github.io/Selenium-QA-automation-PORTFOLIO/) · [Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest TC008 Implementation](https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO/commit/c77eb5b77c3336ffb91eaec280eac5dc10513b4a)
+[View Live Allure Report](https://siler1o.github.io/selenium-qa-automation-portfolio/) · [Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest TC009 Implementation](https://github.com/siler1o/selenium-qa-automation-portfolio/commit/255aa069f5d3e6a2b7df0ff9e4837c88219c9e0b) · [About Reuben](https://github.com/siler1o)
 
 ## Current Snapshot
 
-- **8 automated scenarios out of 26 planned** — 30.8% of the planned scenario list, not application-wide coverage.
-- **Latest recorded local suite run: 8 passed in 67.15 seconds.**
-- Coverage includes registration, authentication, logout, duplicate-email validation, contact-form submission, navigation, product listing, and product-detail validation.
-- All eight tests use the shared Chrome fixture. TC-002 through TC-008 include named Allure steps and metadata.
+Snapshot updated: **10 September 2026**.
+
+- **9 automated scenarios out of 26 planned** — 34.6% of the planned scenario list, not application-wide coverage.
+- **Latest committed Allure snapshot: 9 total, 9 passed.** See the [report statistics](docs/widgets/statistic.json) and [scenario tree](docs/widgets/tree.json).
+- Coverage includes registration, authentication, logout, duplicate-email validation, contact-form submission, navigation, product listing, product-detail validation, and product search.
+- All nine tests use the shared Chrome fixture. TC-002 through TC-009 include named Allure steps and metadata.
 - The latest report is published through GitHub Pages as a manually generated snapshot.
 
-The recorded run used Windows, Google Chrome, Python 3.11.4, Pytest 9.1.1, allure-pytest 2.16.0, and Allure CLI 3.16.0. It is a maintainer-recorded local result, not a CI result or a guarantee that future runs will pass.
+The documented local environment is Windows with Google Chrome, Python 3.11.4, Pytest 9.1.1, and allure-pytest 2.16.0; the report is built with Allure CLI 3.16.0. The result above is a snapshot of a local run, not a CI result, application-wide coverage measurement, or guarantee that future runs will pass.
 
 ## Automated Scenarios
 
@@ -28,20 +30,23 @@ The recorded run used Windows, Google Chrome, Python 3.11.4, Pytest 9.1.1, allur
 | [TC-006](tests/test_TC006_Contact.py) | Contact Us form | Validates the attachment path, submits the form, accepts the alert, checks the exact success message, and returns to the homepage. |
 | [TC-007](tests/test_TC007_Test_Case.py) | Test Cases navigation | Verifies the Test Cases heading, expected text, and /test_cases destination. |
 | [TC-008](tests/test_TC008_Products_Page.py) | Products and product details | Verifies the All Products heading, confirms that product cards are present, opens the first product, and validates its name, category, price, availability, condition, and brand. |
+| [TC-009](tests/test_TC009_Product_Search.py) | Product search | Searches for `Blue Top`, verifies the Searched Products heading, requires at least one visible result, and checks that every returned product card contains the search phrase using a case-insensitive comparison. |
 
-## Progress Over the Last Three Days
+## Implementation Highlights
 
 - Refactored TC-001 through TC-007 to use a shared Pytest browser fixture and improved their assertions, naming, synchronization, and reporting.
 - Added UUID-based registration data to prevent TC-001 from failing because of reused email addresses.
-- Added Allure features, stories, titles, severity levels, and readable step-level reporting to TC-002 through TC-008.
+- Added Allure features, stories, titles, severity levels, and readable step-level reporting to TC-002 through TC-009.
 - Strengthened validations for login, invalid login, logout, existing-email registration, Contact Us, and Test Cases navigation.
 - Made the TC-006 attachment path portable by resolving it from the test file and verifying that the file exists before uploading.
-- Centralized reusable locators and interactions in page objects, including a dedicated ProductPage for TC-008.
+- Centralized reusable locators and interactions in page objects, including a `ProductPage` reused by TC-008 and TC-009.
 - Used visibility and clickability conditions instead of depending only on fixed timing.
 - Learned to validate a collection of product elements with visibility_of_all_elements_located and len().
-- Added exact product-detail assertions while normalizing whitespace from Selenium element text.
+- Added product-detail value checks while normalizing whitespace from Selenium element text.
+- Extended `ProductPage` with search-field, search-button, and result-heading methods for TC-009.
+- Validated search results with a non-empty-list assertion followed by `all()` and `.lower()`. This checks every returned card for the search phrase; it is not a separate test of the search engine's case sensitivity.
 - Reduced interference from unrelated third-party advertising by blocking known ad endpoints through Chrome DevTools Protocol in the shared fixture.
-- Generated an Allure 3 report and published the latest 8/8 passing result through GitHub Pages.
+- Generated an Allure 3 report and published the latest 9/9 passing result through GitHub Pages.
 
 ## Project Organization
 
@@ -51,8 +56,8 @@ The recorded run used Windows, Google Chrome, Python 3.11.4, Pytest 9.1.1, allur
 | [pages/login_page.py](pages/login_page.py) | Login, signup, logout, and authentication-message interactions. |
 | [pages/contact_us.py](pages/contact_us.py) | Contact form fields, attachment upload, alert handling, success message, and home navigation. |
 | [pages/navigation_bar.py](pages/navigation_bar.py) | Reusable navigation to Products and Test Cases. |
-| [pages/products_page.py](pages/products_page.py) | Product-list and product-detail locators, waits, and interactions used by TC-008. |
-| [conftest.py](conftest.py) | Shared Chrome setup, third-party ad isolation, and guaranteed browser teardown. |
+| [pages/products_page.py](pages/products_page.py) | Product-list, product-detail, and search locators, waits, and interactions shared by TC-008 and TC-009. |
+| [conftest.py](conftest.py) | Shared Chrome setup, third-party ad-request blocking, and teardown after each test, including assertion failures. |
 | [test_data/](test_data/) | Sample attachment used by TC-006. |
 | [requirements.txt](requirements.txt) | Python dependencies required by the project. |
 | [docs/](docs/) | Generated Allure report published through GitHub Pages. |
@@ -64,7 +69,7 @@ Page objects handle locating and interacting with UI elements. Tests describe th
 
 TC-001 intentionally retains its original direct-Selenium structure as a foundational example. It now uses the shared fixture, a UUID-based email, and an explicit account-creation wait while preserving some inline locators and fixed sleeps.
 
-TC-002 onward demonstrate the transition toward reusable page objects, explicit waits, clearer assertions, and structured Allure reporting. TC-008 extends that progression with a dedicated product page object, collection handling, and multiple detail validations.
+TC-002 onward demonstrate the transition toward reusable page objects, explicit waits, clearer assertions, and structured Allure reporting. TC-008 extends that progression with a dedicated product page object, collection handling, and multiple detail validations. TC-009 reuses that object for product search and checks each result against the search phrase.
 
 ## Setup
 
@@ -73,8 +78,8 @@ The recorded local environment uses Python 3.11.4 and Google Chrome on Windows. 
 From PowerShell:
 
 ~~~powershell
-git clone https://github.com/siler1o/Selenium-QA-automation-PORTFOLIO.git
-cd Selenium-QA-automation-PORTFOLIO
+git clone https://github.com/siler1o/selenium-qa-automation-portfolio.git
+cd selenium-qa-automation-portfolio
 python -m venv .venv
 ./.venv/Scripts/Activate.ps1
 python -m pip install -r requirements.txt
@@ -88,11 +93,11 @@ TC-002, TC-004, and TC-005 use a pre-existing practice account specified in the 
 
 TC-001 creates a new practice account and currently ends at the account-creation confirmation. Browser teardown does not delete that account. Only use dedicated dummy data on the practice website; never substitute personal or production credentials.
 
-TC-008 validates the current first product and its displayed details. Because this is a public practice site, changes to its catalog data may require the expected values to be updated.
+TC-008 validates the current first product and its displayed details. TC-009 uses the search phrase `Blue Top` and checks the visible text of each result card. Catalog changes may require the expected data to be updated. The current search test does not yet cover empty searches, no-match results, partial phrases, or search completeness against a separate catalog.
 
 ## Run the Tests
 
-Run all eight tests:
+Run all nine tests:
 
 ~~~powershell
 python -m pytest tests/ -v
@@ -101,7 +106,7 @@ python -m pytest tests/ -v
 Run an individual scenario:
 
 ~~~powershell
-python -m pytest tests/test_TC008_Products_Page.py -v
+python -m pytest tests/test_TC009_Product_Search.py -v
 ~~~
 
 Check test discovery without opening browsers:
@@ -118,45 +123,71 @@ Generate fresh raw results for the full suite:
 python -m pytest tests/ -v --alluredir=allure-results --clean-alluredir
 ~~~
 
-The Python integration records the result files. Allure CLI then converts those files into a browser-readable report.
+The Python integration records the result files; the separate Allure CLI builds the HTML report. The command above clears previous raw results in `allure-results/`, so archive any evidence you want to retain before running it.
 
-Preview the results in a temporary local report:
+### Generate and Preview an Allure 3 Report
+
+The documented CLI version is 3.16.0. Use `generate` and `open`, following the [Allure 3 generation](https://allurereport.org/docs/v3/generate-report/) and [viewing](https://allurereport.org/docs/v3/view-report/) guides. Do not add the Allure 2 `--clean` flag.
+
+Run from the repository root in PowerShell. Generate into a fresh temporary folder so old report files cannot be mixed with the new run:
 
 ~~~powershell
-allure.cmd serve allure-results
+$qaReportBuild = Join-Path ([IO.Path]::GetTempPath()) ("qa-allure-" + [guid]::NewGuid().ToString("N"))
+allure.cmd generate ".\allure-results" -o $qaReportBuild
+if ($LASTEXITCODE -ne 0) { throw "Allure generation failed. Do not publish." }
+
+$qaReportSource = $qaReportBuild
+if (Test-Path (Join-Path $qaReportBuild "awesome\index.html")) {
+    $qaReportSource = Join-Path $qaReportBuild "awesome"
+}
+
+if (-not (Test-Path (Join-Path $qaReportSource "index.html"))) {
+    throw "Generated report index.html was not found."
+}
+Get-Content (Join-Path $qaReportSource "widgets\statistic.json") -ErrorAction Stop
 ~~~
+
+Compare the displayed totals with the test run you intend to publish. The recorded snapshot for TC-001 through TC-009 is `{"total":9,"passed":9}`. Review any failures and confirm TC-009 appears in the report:
+
+~~~powershell
+allure.cmd open $qaReportSource
+~~~
+
+Press Ctrl+C to stop the local preview server. This does not delete the results or report files. Keep the same PowerShell session for the next step.
 
 ### Publish the Allure Report to GitHub Pages
 
-This repository uses Allure CLI 3.16.0. Its generate command does not support the older --clean option. The docs directory contains generated output, so remove that exact directory before rebuilding it to prevent a new report from being nested inside an older one.
+Allure can put its Awesome report inside an `awesome/` subfolder. Publish the contents of the actual report directory, not an older root report beside it.
+
+Before replacing `docs/`, check `git status --short` and preserve any hand-written files or unpublished edits. This repository uses that folder for generated reports and its empty `.nojekyll` marker. The commands below move the previous copy to a temporary backup, then copy the verified report to the publishing root:
 
 ~~~powershell
 if (Test-Path ".\docs") {
-    Remove-Item ".\docs" -Recurse -Force
+    $qaDocsBackup = Join-Path ([IO.Path]::GetTempPath()) ("qa-docs-backup-" + [guid]::NewGuid().ToString("N"))
+    Move-Item -LiteralPath ".\docs" -Destination $qaDocsBackup -ErrorAction Stop
+    Write-Host "Previous report backed up to: $qaDocsBackup"
 }
 
-allure.cmd generate ".\allure-results" -o ".\docs"
-New-Item ".\docs\.nojekyll" -ItemType File -Force
+Copy-Item -LiteralPath $qaReportSource -Destination ".\docs" -Recurse -ErrorAction Stop
+New-Item ".\docs\.nojekyll" -ItemType File -Force | Out-Null
+Test-Path ".\docs\index.html"
 Get-Content ".\docs\widgets\statistic.json"
 ~~~
 
-The final command should confirm the expected total and passing-test count. Preview the publishing copy:
+Confirm that `index.html` exists and the totals still match. Inspect the replacement, then publish:
 
 ~~~powershell
-allure.cmd open docs
-~~~
-
-Publish it:
-
-~~~powershell
+git status --short
 git add -A docs
 git commit -m "docs: update published Allure report"
 git push origin main
 ~~~
 
-GitHub Pages publishes from main → /docs. Local test execution and report generation do not update the public site until the changed docs files are committed and pushed.
+These staging commands include only report files. When publishing new test code too, review and explicitly stage its test and page-object files before committing.
 
-[Open the published Allure report](https://siler1o.github.io/Selenium-QA-automation-PORTFOLIO/).
+GitHub Pages publishes from `main` → `/docs`. Test execution, report generation, and publication are separate steps; running tests alone does not refresh the public report. The reports shown here are local-run snapshots, and CI execution remains planned.
+
+[Open the published Allure report](https://siler1o.github.io/selenium-qa-automation-portfolio/).
 
 ### Optional pytest-html Summary
 
@@ -172,14 +203,15 @@ The [Reuben Selenium Test Case Tracker](https://docs.google.com/spreadsheets/d/1
 
 ## Current Scope and Next Steps
 
-This is a personal practice project rather than production automation. Execution currently targets Chrome, and results depend on the availability, behavior, and test data of a public website.
+This is a personal practice project rather than production automation. Execution currently targets Chrome, and results depend on the availability, behavior, and test data of a public website. Third-party ad requests are blocked through Chrome-specific DevTools commands; this is a controlled test-environment choice, not coverage of the site's advertising behavior. TC-001 still has fixed sleeps and inline locators.
 
 Planned improvements:
 
 - Add automatic screenshots and browser details to failed Allure results.
 - Externalize practice-account data and formalize account setup and cleanup.
 - Add CI execution with automatic report generation and GitHub Pages deployment.
-- Continue the 26-case roadmap with product search, cart, and checkout coverage.
+- Add TC-010: homepage subscription, then continue with cart and checkout coverage from the 26-case roadmap.
+- Expand product search with no-match, empty-input, and other data variations.
 - Gradually standardize the earlier page objects while preserving the visible learning progression.
 
 These are planned capabilities, not features already implemented.
