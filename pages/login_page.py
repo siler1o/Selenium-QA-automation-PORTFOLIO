@@ -6,6 +6,14 @@ class LoginPage:
   
   invalid_message = "Your email or password is incorrect!"
 
+  SUBSCRIPTION_HEADING = (
+    By.XPATH,
+    "//h2[normalize-space()='Subscription']"
+  )
+  SUBSCRIPTION_EMAIL = (By.ID, "susbscribe_email")
+  SUBSCRIPTION_BUTTON = (By.ID, "subscribe")
+  SUCCESS_MESSAGE = (By.ID, "success-subscribe")
+
   def __init__(self, driver): #my constructor / set up the things it needs
     self.driver = driver #chrome browser driver
     self.wait = WebDriverWait(driver, 10)
@@ -154,3 +162,42 @@ class LoginPage:
         )
     )
     return loggedout
+
+  def scroll_to_subscription(self):
+    heading = self.wait.until(
+        EC.presence_of_element_located(self.SUBSCRIPTION_HEADING)
+    )
+    self.driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center'});",
+        heading
+    )
+
+  def subscription_header(self):
+      return self.wait.until(
+          EC.visibility_of_element_located(
+          self.SUBSCRIPTION_HEADING
+        )
+    )
+
+  def enter_subemail(self, email):
+      type_email = self.wait.until(
+      EC.visibility_of_element_located(self.SUBSCRIPTION_EMAIL
+        )
+      )
+      type_email.send_keys(email)  
+
+  def click_subscribe(self):
+    sub_button = self.wait.until(
+        EC.element_to_be_clickable((self.SUBSCRIPTION_BUTTON)
+        )
+      )
+    sub_button.click()
+
+  def success_message(self):
+      return self.wait.until(
+          EC.visibility_of_element_located(
+          self.SUCCESS_MESSAGE
+        )
+    )
+
+
