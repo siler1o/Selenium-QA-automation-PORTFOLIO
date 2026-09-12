@@ -10,7 +10,8 @@ class NavigationBar:
         "//h2[normalize-space()='Test Cases']"
     )
     HOME_LINK = (By.LINK_TEXT, "Home")
-    PRODUCT_LINK = (By.CSS_SELECTOR, "a[href='/products']")   
+    PRODUCT_LINK = (By.CSS_SELECTOR, "a[href='/products']")
+    CART_LINK = (By.LINK_TEXT, "Cart")  
     
     def __init__(self, driver):
         self.wait = WebDriverWait(driver, 10)
@@ -37,3 +38,11 @@ class NavigationBar:
                 self.TEST_CASES_HEADING
             )
         )
+
+    def click_cart(self):
+        cart_link = self.wait.until(
+            EC.element_to_be_clickable(
+                self.CART_LINK
+            )
+        )
+        cart_link.click()    
