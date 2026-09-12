@@ -1,1 +1,1 @@
-{"id":"1bf7e17be2c4ce8b3b0068c3c068f0e1","fullName":"tests.test_TC004_Logout_User#test_logout_user","name":"TC-004 — Logout an authenticated user","status":"passed","testResultsByEnv":{"default":"9aad1235544a94ef429a2fd22c7e1d68"}}
+{"id":"1bf7e17be2c4ce8b3b0068c3c068f0e1","fullName":"tests.test_TC004_Logout_User#test_logout_user","name":"TC-004 — Logout an authenticated user","status":"passed","testResultsByEnv":{"default":"95adcbb4a3bf2a9dc5b5d5bc3cab7a3b"}}

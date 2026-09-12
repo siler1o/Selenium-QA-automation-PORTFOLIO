@@ -8,16 +8,27 @@ class ProductPage:
         By.XPATH,
         "//h2[normalize-space()='All Products']"
     )
+    LISTING_PRICE_ONE = (By.XPATH,"//div[contains(@class, 'productinfo')][.//a[@data-product-id='1']]//h2")
+    LISTING_PRICE_TWO = (By.XPATH,"//div[contains(@class, 'productinfo')][.//a[@data-product-id='2']]//h2")
     PRODUCT_LIST = (By.CLASS_NAME, "productinfo")
     VIEW_PRODUCT = (By.LINK_TEXT, "View Product")
     PRODUCT_TITLE = (By.CSS_SELECTOR, "div.product-information h2")
     PRODUCT_INFORMATION = (By.CSS_SELECTOR, "div.product-information")
     SEARCH_BAR = (By.ID, "search_product")
     SEARCH_BUTTON = (By.ID, "submit_search")
-    SEARCH_HEADER = (
-    By.XPATH,
-    "//h2[text()='Searched Products']"
-    )
+    SEARCH_HEADER = (By.XPATH,"//h2[text()='Searched Products']")
+    PRODUCT_ONE = (By.CSS_SELECTOR,"a[data-product-id='1']" )
+    PRODUCT_TWO = (By.CSS_SELECTOR,"a[data-product-id='2']" )
+    CONTINUE_SHOP = (By.CSS_SELECTOR,"button[class='btn btn-success close-modal btn-block']")
+    VIEW_CART = (By.LINK_TEXT,"View Cart")
+    PRODUCT_DETAILS_ONE = (By.CSS_SELECTOR,".cart_description a[href='/product_details/1']")
+    PRODUCT_DETAILS_TWO = (By.CSS_SELECTOR, ".cart_description a[href='/product_details/2']")
+    FIRST_PRICE = (By.CSS_SELECTOR, "#product-1 > .cart_price")
+    SECOND_PRICE = (By.CSS_SELECTOR, "#product-2 > .cart_price")                      
+    FIRST_QUANITY = (By.CSS_SELECTOR, "#product-1 > .cart_quantity > button")     
+    SECOND_QUANITY = (By.CSS_SELECTOR, "#product-2 > .cart_quantity > button")  
+    FIRST_TOTAL = (By.CSS_SELECTOR,"#product-1 .cart_total_price")                 
+    SECOND_TOTAL = (By.CSS_SELECTOR,"#product-2 .cart_total_price")            
 
     def __init__(self, driver):
      self.driver = driver
@@ -81,5 +92,109 @@ class ProductPage:
                 self.SEARCH_HEADER
             )
         )
+
+    def click_add_one(self):
+        add_to_cart_one = self.wait.until(
+            EC.element_to_be_clickable(
+                self.PRODUCT_ONE
+            )
+        )
+        add_to_cart_one.click()   
+        
+    def continue_shopping(self):
+        click_continue = self.wait.until(
+            EC.element_to_be_clickable(
+                self.CONTINUE_SHOP
+            )
+        )
+        click_continue.click()   
+
+    def click_add_two(self):
+        add_to_cart_two = self.wait.until(
+            EC.element_to_be_clickable(
+                self.PRODUCT_TWO
+            )
+        )
+        add_to_cart_two.click()   
+
+    def view_cart(self):
+        click_cart = self.wait.until(
+            EC.element_to_be_clickable(
+                self.VIEW_CART
+            )
+        )
+        click_cart.click()  
+
+    def product_one_details(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.PRODUCT_DETAILS_ONE
+            )
+        )
+
+    def product_two_details(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.PRODUCT_DETAILS_TWO
+            )
+        )
+
+    def price_one(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.FIRST_PRICE
+            )
+        )
+
+    def price_two(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.SECOND_PRICE
+            )
+        )
+    
+    def first_listing_price(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.LISTING_PRICE_ONE
+        )
+    )
+
+    def second_listing_price(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.LISTING_PRICE_TWO
+        )
+    )
+
+    def first_cart_quantity(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.FIRST_QUANITY
+        )
+    )
+
+    def second_cart_quantity(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.SECOND_QUANITY
+        )
+    )
+    
+    def first_cart_total(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.FIRST_TOTAL
+        )
+    )
+
+    def second_cart_total(self):
+        return self.wait.until(
+            EC.visibility_of_element_located(
+            self.SECOND_TOTAL
+        )
+    )
+
+    
 
 
