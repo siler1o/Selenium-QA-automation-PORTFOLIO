@@ -157,7 +157,7 @@ if (-not (Test-Path (Join-Path $qaReportSource "index.html"))) {
 Get-Content (Join-Path $qaReportSource "widgets\statistic.json") -ErrorAction Stop
 ~~~
 
-Compare the displayed totals with the test run you intend to publish. The recorded snapshot for TC-001 through TC-012 is `{"total":12,"passed":12}`. For a new publication, review any failures and confirm every intended scenario appears in the report; confirm that all 12 intended scenarios appear in the report:
+Compare the displayed totals with the test run you intend to publish. The recorded snapshot for TC-001 through TC-012 is `{"total":12,"passed":12}`. For a new publication, review any failures and confirm that all 12 intended scenarios appear in the report:
 
 ~~~powershell
 allure.cmd open $qaReportSource
