@@ -4,17 +4,16 @@ A personal UI automation project by **Reuben Silerio**, applying professional ma
 
 The project translates documented scenarios into automated checks against [Automation Exercise](https://automationexercise.com/), with a focus on repeatable execution, meaningful assertions, reusable page objects, explicit synchronization, and clear test evidence.
 
-[View Live Allure Report](https://siler1o.github.io/selenium-qa-automation-portfolio/) · [Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest Scenario: TC010](tests/test_TC010_Subscription.py) · [About Reuben](https://github.com/siler1o)
+[View Live Allure Report](https://siler1o.github.io/selenium-qa-automation-portfolio/) · [Test Case Tracker](https://docs.google.com/spreadsheets/d/1E-rbgsHj4jv7pamglMdsREiQnfcl-aHWACqrRmAwD3w/edit?usp=drivesdk) · [Test Scripts](tests/) · [Latest Scenario: TC012](tests/test_TC012_Add_Products.py) · [About Reuben](https://github.com/siler1o)
 
 ## Current Snapshot
 
-Snapshot updated: **11 September 2026**.
+Snapshot updated: **12 September 2026**.
 
-- **10 automated scenarios out of 26 planned** — 38.5% of the planned scenario list, not application-wide coverage.
-- **Latest committed Allure snapshot: 9 total, 9 passed.** See the [report statistics](docs/widgets/statistic.json) and [scenario tree](docs/widgets/tree.json).
-- TC-010 homepage subscription is implemented in source code but is not included in the published report yet. The next report refresh is planned after TC-011 is completed and the suite is run.
-- Coverage includes registration, authentication, logout, duplicate-email validation, contact-form submission, navigation, product listing, product-detail validation, product search, and homepage subscription.
-- All ten tests use the shared Chrome fixture. TC-002 through TC-010 include named Allure steps and metadata.
+- **12 automated scenarios out of 26 planned** — 46.2% of the planned scenario list, not application-wide coverage.
+- **Latest committed Allure snapshot: 12 total, 12 passed.** See the [report statistics](docs/widgets/statistic.json) and [scenario tree](docs/widgets/tree.json).
+- Coverage includes registration, authentication, logout, duplicate-email validation, contact-form submission, navigation, product listing, product-detail validation, product search, homepage and Cart-page subscription, and two-product cart validation.
+- All twelve tests use the shared Chrome fixture. TC-002 through TC-012 include named Allure steps and metadata.
 - The latest report is published through GitHub Pages as a manually generated snapshot.
 
 The documented local environment is Windows with Google Chrome, Python 3.11.4, Pytest 9.1.1, and allure-pytest 2.16.0; the report is built with Allure CLI 3.16.0. The result above is a snapshot of a local run, not a CI result, application-wide coverage measurement, or guarantee that future runs will pass.
@@ -33,23 +32,27 @@ The documented local environment is Windows with Google Chrome, Python 3.11.4, P
 | [TC-008](tests/test_TC008_Products_Page.py) | Products and product details | Verifies the All Products heading, confirms that product cards are present, opens the first product, and validates its name, category, price, availability, condition, and brand. |
 | [TC-009](tests/test_TC009_Product_Search.py) | Product search | Searches for `Blue Top`, verifies the Searched Products heading, requires at least one visible result, and checks that every returned product card contains the search phrase using a case-insensitive comparison. |
 | [TC-010](tests/test_TC010_Subscription.py) | Homepage subscription | Verifies the homepage URL, scrolls to the subscription section, checks the heading is visible, submits a valid test email, and checks the visible confirmation message against the expected text. |
+| [TC-011](tests/test_TC011_Subscription_Cart.py) | Cart-page subscription | Opens the Cart page, scrolls to its subscription section, submits a valid test email, and verifies the exact visible success message. |
+| [TC-012](tests/test_TC012_Add_Products.py) | Add products to cart | Adds the first two listed products, verifies both product links are visible in the cart, compares cart unit prices with prices captured from the listing, checks quantity 1, and verifies each displayed total. |
 
 ## Implementation Highlights
 
 - Refactored TC-001 through TC-007 to use a shared Pytest browser fixture and improved their assertions, naming, synchronization, and reporting.
 - Added UUID-based registration data to prevent TC-001 from failing because of reused email addresses.
-- Added Allure features, stories, titles, severity levels, and readable step-level reporting to TC-002 through TC-010.
+- Added Allure features, stories, titles, severity levels, and readable step-level reporting to TC-002 through TC-012.
 - Strengthened validations for login, invalid login, logout, existing-email registration, Contact Us, and Test Cases navigation.
 - Made the TC-006 attachment path portable by resolving it from the test file and verifying that the file exists before uploading.
-- Centralized reusable locators and interactions in page objects, including a `ProductPage` reused by TC-008 and TC-009.
+- Centralized reusable locators and interactions in page objects, including a `ProductPage` reused by TC-008, TC-009, and TC-012.
 - Used visibility and clickability conditions instead of depending only on fixed timing.
 - Learned to validate a collection of product elements with visibility_of_all_elements_located and len().
 - Added product-detail value checks while normalizing whitespace from Selenium element text.
 - Extended `ProductPage` with search-field, search-button, and result-heading methods for TC-009.
 - Validated search results with a non-empty-list assertion followed by `all()` and `.lower()`. This checks every returned card for the search phrase; it is not a separate test of the search engine's case sensitivity.
 - Added homepage subscription methods in `LoginPage` for TC-010, using JavaScript `scrollIntoView`, explicit waits, and exact confirmation-text validation.
+- Reused the homepage subscription interactions for TC-011 on the Cart page.
+- Added parent-scoped CSS selectors for cart rows and captured listing prices dynamically before validating cart unit prices and totals in TC-012.
 - Reduced interference from unrelated third-party advertising by blocking known ad endpoints through Chrome DevTools Protocol in the shared fixture.
-- Generated an Allure 3 report and published the latest 9/9 passing result through GitHub Pages.
+- Generated an Allure 3 report and published the latest 12/12 passing result through GitHub Pages.
 
 ## Project Organization
 
@@ -58,8 +61,8 @@ The documented local environment is Windows with Google Chrome, Python 3.11.4, P
 | [tests/](tests/) | Test workflows, expected-result assertions, and Allure steps. |
 | [pages/login_page.py](pages/login_page.py) | Login, signup, logout, authentication messages, and the current homepage subscription interactions. |
 | [pages/contact_us.py](pages/contact_us.py) | Contact form fields, attachment upload, alert handling, success message, and home navigation. |
-| [pages/navigation_bar.py](pages/navigation_bar.py) | Reusable navigation to Products and Test Cases. |
-| [pages/products_page.py](pages/products_page.py) | Product-list, product-detail, and search locators, waits, and interactions shared by TC-008 and TC-009. |
+| [pages/navigation_bar.py](pages/navigation_bar.py) | Reusable navigation to Products, Test Cases, and Cart. |
+| [pages/products_page.py](pages/products_page.py) | Product listing, product details, search, Add to cart, and cart-validation locators and interactions shared by TC-008, TC-009, and TC-012. |
 | [conftest.py](conftest.py) | Shared Chrome setup, third-party ad-request blocking, and teardown after each test, including assertion failures. |
 | [test_data/](test_data/) | Sample attachment used by TC-006. |
 | [requirements.txt](requirements.txt) | Python dependencies required by the project. |
@@ -72,7 +75,7 @@ Page objects handle locating and interacting with UI elements. Tests describe th
 
 TC-001 intentionally retains its original direct-Selenium structure as a foundational example. It now uses the shared fixture, a UUID-based email, and an explicit account-creation wait while preserving some inline locators and fixed sleeps.
 
-TC-002 onward demonstrate the transition toward reusable page objects, explicit waits, clearer assertions, and structured Allure reporting. TC-008 extends that progression with a dedicated product page object, collection handling, and multiple detail validations. TC-009 reuses that object for product search and checks each result against the search phrase. TC-010 adds scrolling to a footer section and distinguishes action methods from methods that return elements for assertions.
+TC-002 onward demonstrate the transition toward reusable page objects, explicit waits, clearer assertions, and structured Allure reporting. TC-008 extends that progression with a dedicated product page object, collection handling, and multiple detail validations. TC-009 reuses that object for product search and checks each result against the search phrase. TC-010 adds scrolling to a footer section and distinguishes action methods from methods that return elements for assertions. TC-011 reuses that subscription flow on the Cart page. TC-012 adds multi-product cart interactions, parent-scoped selectors, dynamic price capture, and price, quantity, and total comparisons.
 
 ## Setup
 
@@ -98,11 +101,13 @@ TC-001 creates a new practice account and currently ends at the account-creation
 
 TC-008 validates the current first product and its displayed details. TC-009 uses the search phrase `Blue Top` and checks the visible text of each result card. Catalog changes may require the expected data to be updated. The current search test does not yet cover empty searches, no-match results, partial phrases, or search completeness against a separate catalog.
 
-TC-010 uses a dummy email to submit the homepage subscription form and checks its on-page confirmation. It does not verify email delivery or persistent subscription storage.
+TC-010 and TC-011 use a dummy email to submit the subscription form and check its on-page confirmation. They do not verify email delivery or persistent subscription storage.
+
+TC-012 expects a fresh browser session and adds products 1 and 2 once each. It captures their current listing prices during execution, then checks that the cart shows both product links, matching unit prices, quantity 1, and matching row totals.
 
 ## Run the Tests
 
-Run all ten tests:
+Run all twelve tests:
 
 ~~~powershell
 python -m pytest tests/ -v
@@ -111,7 +116,7 @@ python -m pytest tests/ -v
 Run an individual scenario:
 
 ~~~powershell
-python -m pytest tests/test_TC010_Subscription.py -v
+python -m pytest tests/test_TC012_Add_Products.py -v
 ~~~
 
 Check test discovery without opening browsers:
@@ -152,7 +157,7 @@ if (-not (Test-Path (Join-Path $qaReportSource "index.html"))) {
 Get-Content (Join-Path $qaReportSource "widgets\statistic.json") -ErrorAction Stop
 ~~~
 
-Compare the displayed totals with the test run you intend to publish. The recorded snapshot for TC-001 through TC-009 is `{"total":9,"passed":9}`. For a new publication, review any failures and confirm every intended scenario appears in the report; do not treat the older 9/9 snapshot as evidence for TC-010 or later tests:
+Compare the displayed totals with the test run you intend to publish. The recorded snapshot for TC-001 through TC-012 is `{"total":12,"passed":12}`. For a new publication, review any failures and confirm every intended scenario appears in the report; confirm that all 12 intended scenarios appear in the report:
 
 ~~~powershell
 allure.cmd open $qaReportSource
@@ -215,8 +220,8 @@ Planned improvements:
 - Add automatic screenshots and browser details to failed Allure results.
 - Externalize practice-account data and formalize account setup and cleanup.
 - Add CI execution with automatic report generation and GitHub Pages deployment.
-- Add TC-011: subscription on the Cart page, then run the full suite and refresh the published Allure report.
-- Continue with cart and checkout coverage from the 26-case roadmap.
+- Add TC-013: verify product quantity in the cart.
+- Continue with checkout coverage from the 26-case roadmap.
 - Expand product search with no-match, empty-input, and other data variations.
 - Gradually standardize the earlier page objects while preserving the visible learning progression.
 
